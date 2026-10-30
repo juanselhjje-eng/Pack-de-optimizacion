@@ -13,7 +13,9 @@ Aplicación de escritorio para diagnosticar Windows y revisar el rendimiento en 
 - Inventario de ubicaciones de inicio sin desactivar programas.
 - Consulta del plan de energía actual.
 - Consulta de telemetría NVIDIA mediante nvidia-smi, si está disponible.
-- Consulta opcional de sensores térmicos mediante LibreHardwareMonitor u OpenHardwareMonitor.
+- Consulta y clasificación orientativa de temperaturas de CPU/GPU mediante LibreHardwareMonitor, OpenHardwareMonitor y nvidia-smi cuando están disponibles.
+- Recomendaciones ante alertas térmicas y guía para evitar recalentamiento.
+- Política para evitar límites de rendimiento innecesarios sin forzar el 100% permanente ni desactivar protecciones.
 - Microprueba corta de CPU y almacenamiento temporal.
 - Recomendaciones basadas en uso de CPU, RAM y espacio libre.
 - Perfiles informativos: equilibrado, programación, gaming y máximo rendimiento.
@@ -44,7 +46,7 @@ GitHub Actions ejecuta pruebas en Windows con Python 3.12 cuando se activa el fl
 ## Seguridad y límites
 Esta versión prioriza diagnóstico. No cambia registro, plan de energía, servicios, firewall, Defender, Windows Update ni aplicaciones de inicio. No borra archivos. Las micropruebas son orientativas y no equivalen a benchmarks profesionales. No se garantizan aumentos fijos de FPS ni reducciones de ping.
 
-Consulta docs/OPTIMIZATION_POLICY.md antes de añadir cualquier función que modifique Windows. Los cambios futuros deberán mostrar impacto y riesgos, solicitar confirmación y ofrecer reversión.
+Consulta docs/OPTIMIZATION_POLICY.md, docs/THERMALS.md y docs/RESOURCE_POLICY.md antes de añadir cualquier función que modifique Windows. Los cambios futuros deberán mostrar impacto y riesgos, solicitar confirmación y ofrecer reversión.
 
 ## Hardware de referencia
 ASUS TUF Gaming F15 FX506HC, Intel Core i5-11400H, NVIDIA RTX 3050 Laptop, 16 GB DDR4-3200, SSD Micron 512 GB y pantalla 1920x1080 a 144 Hz. El programa detecta el equipo en el que se ejecuta; no fuerza estos valores.
