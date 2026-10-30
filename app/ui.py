@@ -158,7 +158,12 @@ class OptimizerApp:
         )
         if not path:
             return
-        Path(path).write_text(json.dumps(self.report, indent=2, ensure_ascii=False), encoding="utf-8")
+        full_report = dict(self.report)
+        full_report["processes"] = processes.top_processes()
+        full_report["development_tools"] = dev_environment.scan_development_tools()
+        full_report["nvidia"] = gpu.nvidia_status()
+        full_report["power"] = power.get_power_status()
+        Path(path).write_text(json.dumps(full_report, indent=2, ensure_ascii=False), encoding="utf-8")
         messagebox.showinfo(APP_NAME, "Informe exportado.")
 
     def security_info(self):
