@@ -4,7 +4,7 @@ from tkinter import ttk, messagebox, filedialog
 from datetime import datetime
 from pathlib import Path
 
-from app import diagnostics, network, cleanup, processes, dev_environment, startup, gpu, power, benchmark
+from app import diagnostics, network, cleanup, processes, dev_environment, startup, gpu, power, benchmark, recommendations
 
 APP_NAME = "Ultimate PC Optimizer"
 
@@ -109,7 +109,8 @@ class OptimizerApp:
         self.root.update_idletasks()
         try:
             self.report = diagnostics.build_report()
-            self._set(self.dashboard, diagnostics.format_report(self.report))
+            self.report["recommendations"] = recommendations.analyze(self.report)
+            self._set(self.dashboard, diagnostics.format_report(self.report) + "\n\nRECOMENDACIONES\n\n" + json.dumps(self.report["recommendations"], indent=2, ensure_ascii=False))
             self._set(self.process_tab, json.dumps(processes.top_processes(), indent=2, ensure_ascii=False))
             self._set(self.dev_tab, json.dumps(dev_environment.scan_development_tools(), indent=2, ensure_ascii=False))
             self.status.configure(text="Análisis completado: " + datetime.now().strftime("%H:%M:%S"))
