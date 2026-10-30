@@ -12,6 +12,7 @@ Aplicación de escritorio para diagnosticar Windows y revisar el rendimiento en 
 - Inventario de ubicaciones de inicio sin desactivar programas.
 - Consulta del plan de energía actual.
 - Consulta de telemetría NVIDIA mediante nvidia-smi, si está disponible.
+- Consulta opcional de sensores térmicos mediante LibreHardwareMonitor u OpenHardwareMonitor.
 - Microprueba corta de CPU y almacenamiento temporal.
 - Recomendaciones basadas en uso de CPU, RAM y espacio libre.
 - Perfiles informativos: equilibrado, programación, gaming y máximo rendimiento.
