@@ -66,4 +66,4 @@ def build_report():
 
 def format_report(report):
     import json
-    return "INFORME DEL EQUIPO\\n\\n" + json.dumps(report, indent=2, ensure_ascii=False)
+    return "INFORME DEL EQUIPO\n\n" + json.dumps(report, indent=2, ensure_ascii=False)
