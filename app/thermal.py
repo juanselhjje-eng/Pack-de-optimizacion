@@ -8,7 +8,7 @@ def thermal_status():
     results = {}
     for name, namespace in commands:
         command = (
-            f"Get-CimInstance -Namespace '{namespace}' -ClassName Sensor -ErrorAction Stop "
+            "Get-CimInstance -Namespace '" + namespace + "' -ClassName Sensor -ErrorAction Stop "
             "| Where-Object { $_.SensorType -eq 'Temperature' } "
             "| Select-Object Name,Value,Identifier | ConvertTo-Json -Compress"
         )
