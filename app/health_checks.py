@@ -1,21 +1,12 @@
 import shutil
-import subprocess
 import platform
 
 def run_health_checks():
-    checks = {
-        "python": platform.python_version(),
-        "powershell": shutil.which("powershell"),
-        "nvidia_smi": shutil.which("nvidia-smi"),
-        "git": shutil.which("git"),
-        "winget": shutil.which("winget")
+    return {
+        "python_version": platform.python_version(),
+        "powershell_available": shutil.which("powershell") is not None,
+        "nvidia_smi_available": shutil.which("nvidia-smi") is not None,
+        "git_available": shutil.which("git") is not None,
+        "winget_available": shutil.which("winget") is not None,
+        "note": "Este módulo solo comprueba la disponibilidad de herramientas; no ejecuta reparaciones."
     }
-    try:
-        p = subprocess.run(["sfc", "/verifyonly"], capture_output=True, text=True, timeout=2)
-        checks["system_file_checker"] = {
-            "started": False,
-            "note": "No se ejecutó el análisis porque SFC puede tardar y requiere una acción separada."
-        }
-    except (OSError, subprocess.TimeoutExpired):
-        checks["system_file_checker"] = {"started": False}
-    return checks
