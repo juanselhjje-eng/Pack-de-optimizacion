@@ -5,6 +5,7 @@ Aplicación de escritorio para diagnosticar Windows y revisar el rendimiento en 
 ## Funciones actuales
 - Interfaz gráfica con pestañas: resumen, procesos, programación, red, mantenimiento, inicio, rendimiento y perfiles.
 - Inventario de Windows, CPU, RAM, discos físicos, volúmenes, GPU, batería y adaptadores de red.
+- Consulta de estado de Microsoft Defender, firewall y virtualización sin cambiar su configuración.
 - Procesos ordenados por memoria, con estado e hilos.
 - Detección de Python, Git, Node.js, npm, VS Code y Cursor.
 - Prueba ICMP con estadísticas de latencia y pérdida cuando Windows informa el dato.
