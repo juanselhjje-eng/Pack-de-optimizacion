@@ -1,4 +1,3 @@
-import os
 import subprocess
 
 def _ps(command):
@@ -13,8 +12,8 @@ def scan_startup_entries():
     commands = {
         "current_user_run": "Get-ItemProperty 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Run' | Select-Object * -ExcludeProperty PS* | ConvertTo-Json -Compress",
         "local_machine_run": "Get-ItemProperty 'HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Run' | Select-Object * -ExcludeProperty PS* | ConvertTo-Json -Compress",
-        "user_startup_folder": "Get-ChildItem $env:APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\Startup -Force | Select-Object Name,FullName | ConvertTo-Json -Compress",
-        "common_startup_folder": "Get-ChildItem $env:ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp -Force | Select-Object Name,FullName | ConvertTo-Json -Compress"
+        "user_startup_folder": "Get-ChildItem (Join-Path $env:APPDATA 'Microsoft\\Windows\\Start Menu\\Programs\\Startup') -Force | Select-Object Name,FullName | ConvertTo-Json -Compress",
+        "common_startup_folder": "Get-ChildItem (Join-Path $env:ProgramData 'Microsoft\\Windows\\Start Menu\\Programs\\StartUp') -Force | Select-Object Name,FullName | ConvertTo-Json -Compress"
     }
     return {
         "entries": {name: _ps(command) for name, command in commands.items()},
