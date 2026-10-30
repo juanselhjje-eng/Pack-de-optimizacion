@@ -1,47 +1,44 @@
 # Ultimate PC Optimizer
 
-Herramienta local para diagnosticar y mejorar el mantenimiento de Windows 10/11. Diseñada para uso general, programación, multitarea y videojuegos.
+Aplicación de escritorio para diagnosticar Windows y revisar el rendimiento en uso general, programación, multitarea y videojuegos.
 
-## Principios
-- Diagnóstico antes de modificar.
-- Ningún ajuste del sistema se aplica sin confirmación.
-- Las operaciones destructivas se excluyen de la primera versión.
-- Registro local de acciones y copias de seguridad cuando corresponda.
-- No se prometen aumentos fijos de FPS ni reducciones garantizadas de ping.
+## Funciones actuales
+- Interfaz gráfica con pestañas.
+- Inventario de Windows, CPU, RAM, discos físicos, volúmenes, GPU, batería y adaptadores de red.
+- Procesos ordenados por memoria.
+- Detección de Python, Git, Node.js, npm, VS Code y Cursor.
+- Prueba ICMP con promedio, mínimo, máximo y pérdida cuando Windows informa el dato.
+- Revisión de archivos temporales sin borrarlos.
+- Inventario de ubicaciones de inicio sin desactivar programas.
+- Consulta del plan de energía actual.
+- Consulta de telemetría NVIDIA mediante \`nvidia-smi\`, si está disponible.
+- Microprueba corta de CPU y almacenamiento temporal.
+- Exportación JSON del informe principal.
 
 ## Requisitos
 - Windows 10/11 de 64 bits.
 - Python 3.10 o superior.
-- PowerShell disponible.
-- Algunas consultas avanzadas pueden requerir permisos de administrador.
+- PowerShell.
+- Controlador NVIDIA compatible para consultar \`nvidia-smi\`.
 
-## Instalación
-```powershell
+## Ejecutar
+Doble clic en \`run.bat\`. El script crea un entorno virtual local e instala las dependencias. También puedes ejecutar:
+
+\`\`\`powershell
 py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-python main.py
-```
+.\\.venv\\Scripts\\python.exe -m pip install -r requirements.txt
+.\\.venv\\Scripts\\python.exe main.py
+\`\`\`
 
-Si PowerShell bloquea la activación, ejecuta `\.venv\Scripts\python.exe -m pip install -r requirements.txt` y luego `\.venv\Scripts\python.exe main.py`.
+## Pruebas
+\`\`\`powershell
+python -m unittest discover -s tests -v
+\`\`\`
 
-## Módulos
-- Resumen de hardware y sistema.
-- CPU, RAM, GPU, almacenamiento y procesos.
-- Diagnóstico de latencia y pérdida de paquetes.
-- Revisión de espacio temporal.
-- Perfiles informativos: General, Programación y Gaming.
-- Exportación de informes JSON.
-- Registro de acciones.
+## Seguridad y límites
+Esta versión prioriza diagnóstico. No cambia registro, plan de energía, servicios, firewall, Defender, Windows Update ni aplicaciones de inicio. No borra archivos. Las micropruebas son orientativas y no equivalen a benchmarks profesionales. No se garantizan aumentos fijos de FPS ni reducciones de ping.
 
-## Seguridad
-La versión inicial es principalmente diagnóstica. No desactiva Defender, Windows Update, firewall, servicios esenciales ni modifica el registro automáticamente. No incluye "limpiadores de RAM" agresivos, overclocking ni cambios de TCP universales.
+Consulta \`docs/OPTIMIZATION_POLICY.md\` antes de añadir cualquier función que modifique Windows. Los cambios futuros deberán mostrar impacto y riesgos, solicitar confirmación y ofrecer reversión.
 
-Antes de implementar una optimización nueva, documenta su efecto, riesgos, compatibilidad, método de comprobación y reversión. Prueba cada cambio en el hardware objetivo.
-
-## Hardware de desarrollo de referencia
-ASUS TUF Gaming F15 FX506HC, Intel Core i5-11400H, NVIDIA RTX 3050 Laptop, 16 GB DDR4-3200, SSD Micron 512 GB, pantalla 1920x1080 a 144 Hz. La detección se ejecuta localmente; estos datos solo sirven como referencia.
-
-## Estado
-Prototipo inicial. Algunas métricas dependen de controladores y herramientas del fabricante.
+## Hardware de referencia
+ASUS TUF Gaming F15 FX506HC, Intel Core i5-11400H, NVIDIA RTX 3050 Laptop, 16 GB DDR4-3200, SSD Micron 512 GB y pantalla 1920x1080 a 144 Hz. El programa detecta el equipo en el que se ejecuta; no fuerza estos valores.
