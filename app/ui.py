@@ -4,7 +4,7 @@ from tkinter import ttk, messagebox, filedialog
 from datetime import datetime
 from pathlib import Path
 
-from app import diagnostics, network, cleanup, processes, dev_environment, startup
+from app import diagnostics, network, cleanup, processes, dev_environment, startup, gpu, power, benchmark
 
 APP_NAME = "Ultimate PC Optimizer"
 
@@ -29,7 +29,7 @@ class OptimizerApp:
         toolbar.pack(fill="x", pady=(0, 10))
         ttk.Button(toolbar, text="Analizar equipo", command=self.refresh).pack(side="left", padx=(0, 6))
         ttk.Button(toolbar, text="Exportar informe", command=self.export).pack(side="left", padx=6)
-        ttk.Button(toolbar, text="Acerca de la seguridad", command=self.security_info).pack(side="left", padx=6)
+        ttk.Button(toolbar, text="Seguridad", command=self.security_info).pack(side="left", padx=6)
         self.status = ttk.Label(shell, text="Preparado")
         self.status.pack(anchor="w", pady=(0, 8))
         self.tabs = ttk.Notebook(shell)
@@ -40,6 +40,7 @@ class OptimizerApp:
         self.network_tab = self._network_tab()
         self.maintenance_tab = self._maintenance_tab()
         self.startup_tab = self._startup_tab()
+        self.performance_tab = self._performance_tab()
 
     def _text_tab(self, name):
         frame = ttk.Frame(self.tabs, padding=10)
@@ -89,6 +90,20 @@ class OptimizerApp:
         self.startup_output.configure(state="disabled")
         return frame
 
+    def _performance_tab(self):
+        frame = ttk.Frame(self.tabs, padding=12)
+        self.tabs.add(frame, text="Rendimiento")
+        ttk.Label(frame, text="Consultas de GPU, energía y una microprueba local.").pack(anchor="w")
+        buttons = ttk.Frame(frame)
+        buttons.pack(anchor="w", pady=8)
+        ttk.Button(buttons, text="Consultar GPU NVIDIA", command=self.show_gpu).pack(side="left", padx=(0, 6))
+        ttk.Button(buttons, text="Consultar energía", command=self.show_power).pack(side="left", padx=6)
+        ttk.Button(buttons, text="Ejecutar microprueba", command=self.run_benchmark).pack(side="left", padx=6)
+        self.performance_output = tk.Text(frame, wrap="word", font=("Consolas", 10))
+        self.performance_output.pack(fill="both", expand=True)
+        self.performance_output.configure(state="disabled")
+        return frame
+
     def refresh(self):
         self.status.configure(text="Analizando hardware y sistema...")
         self.root.update_idletasks()
@@ -111,14 +126,26 @@ class OptimizerApp:
             messagebox.showerror(APP_NAME, str(exc))
 
     def preview_temp(self):
-        result = cleanup.get_temp_cleanup_preview()
-        self._set(self.maintenance_output, json.dumps(result, indent=2, ensure_ascii=False))
+        self._set(self.maintenance_output, json.dumps(cleanup.get_temp_cleanup_preview(), indent=2, ensure_ascii=False))
         self.tabs.select(4)
 
     def scan_startup(self):
-        result = startup.scan_startup_entries()
-        self._set(self.startup_output, json.dumps(result, indent=2, ensure_ascii=False))
+        self._set(self.startup_output, json.dumps(startup.scan_startup_entries(), indent=2, ensure_ascii=False))
         self.tabs.select(5)
+
+    def show_gpu(self):
+        self._set(self.performance_output, json.dumps(gpu.nvidia_status(), indent=2, ensure_ascii=False))
+        self.tabs.select(6)
+
+    def show_power(self):
+        self._set(self.performance_output, json.dumps(power.get_power_status(), indent=2, ensure_ascii=False))
+        self.tabs.select(6)
+
+    def run_benchmark(self):
+        if not messagebox.askyesno("Microprueba", "Se ejecutará una prueba corta de CPU y lectura/escritura de un archivo temporal de 16 MB. ¿Continuar?"):
+            return
+        self._set(self.performance_output, json.dumps(benchmark.run_quick_benchmark(), indent=2, ensure_ascii=False))
+        self.tabs.select(6)
 
     def export(self):
         if self.report is None:
