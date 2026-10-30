@@ -56,6 +56,9 @@ def build_report():
         "physical_disks": _powershell("Get-PhysicalDisk | Select-Object FriendlyName,MediaType,HealthStatus,OperationalStatus,Size | ConvertTo-Json -Compress"),
         "network_adapters": _powershell("Get-NetAdapter | Select-Object Name,InterfaceDescription,Status,LinkSpeed | ConvertTo-Json -Compress"),
         "battery": _powershell("Get-CimInstance Win32_Battery | Select-Object EstimatedChargeRemaining,BatteryStatus | ConvertTo-Json -Compress"),
+        "defender": _powershell("Get-MpComputerStatus | Select-Object AntivirusEnabled,RealTimeProtectionEnabled,AntispywareEnabled,AMServiceEnabled | ConvertTo-Json -Compress"),
+        "firewall": _powershell("Get-NetFirewallProfile | Select-Object Name,Enabled | ConvertTo-Json -Compress"),
+        "virtualization": _powershell("Get-CimInstance Win32_ComputerSystem | Select-Object HypervisorPresent | ConvertTo-Json -Compress"),
         "python_version": platform.python_version(),
         "limitations": [
             "La temperatura depende de sensores y controladores compatibles.",
