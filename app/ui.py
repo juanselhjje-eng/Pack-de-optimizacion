@@ -191,6 +191,7 @@ class OptimizerApp:
         full_report["development_tools"] = dev_environment.scan_development_tools()
         full_report["nvidia"] = gpu.nvidia_status()
         full_report["power"] = power.get_power_status()
+        full_report["temperatures"] = thermal.thermal_status()
         Path(path).write_text(json.dumps(full_report, indent=2, ensure_ascii=False), encoding="utf-8")
         messagebox.showinfo(APP_NAME, "Informe exportado.")
 
