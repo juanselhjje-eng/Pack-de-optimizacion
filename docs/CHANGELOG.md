@@ -1,15 +1,17 @@
 # Registro de cambios
 
-## Desarrollo inicial
+## Versión de desarrollo
 - Interfaz de escritorio con pestañas.
 - Diagnóstico ampliado de CPU, memoria, discos, GPU, adaptadores y batería.
-- Listado de procesos por uso de memoria.
-- Detección de herramientas de desarrollo.
-- Prueba ICMP.
-- Inventario de aplicaciones de inicio.
-- Consulta de planes de energía.
-- Benchmark local corto y no destructivo.
-- Vista previa de temporales.
-- Exportación de informe JSON.
+- Listado de procesos por memoria, estado e hilos.
+- Detección de herramientas de programación.
+- Prueba ICMP con estadísticas.
+- Inventario de ubicaciones de inicio.
+- Consulta del plan de energía.
+- Consulta NVIDIA con nvidia-smi cuando está disponible.
+- Microprueba corta de CPU y almacenamiento.
+- Exportación de informes ampliados.
+- Pruebas automatizadas en GitHub Actions para Windows y Ubuntu.
+- Documentación de seguridad, pruebas y uso.
 
 Las funciones de modificación del sistema siguen pendientes de implementación segura.
