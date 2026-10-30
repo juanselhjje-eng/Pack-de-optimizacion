@@ -4,7 +4,7 @@ from tkinter import ttk, messagebox, filedialog
 from datetime import datetime
 from pathlib import Path
 
-from app import diagnostics, network, cleanup, processes, dev_environment, startup, gpu, power, benchmark, recommendations, profiles
+from app import diagnostics, network, cleanup, processes, dev_environment, startup, gpu, power, benchmark, recommendations, profiles, thermal
 
 APP_NAME = "Ultimate PC Optimizer"
 
@@ -100,6 +100,7 @@ class OptimizerApp:
         ttk.Button(buttons, text="Consultar GPU NVIDIA", command=self.show_gpu).pack(side="left", padx=(0, 6))
         ttk.Button(buttons, text="Consultar energía", command=self.show_power).pack(side="left", padx=6)
         ttk.Button(buttons, text="Ejecutar microprueba", command=self.run_benchmark).pack(side="left", padx=6)
+        ttk.Button(buttons, text="Consultar temperaturas", command=self.show_thermal).pack(side="left", padx=6)
         self.performance_output = tk.Text(frame, wrap="word", font=("Consolas", 10))
         self.performance_output.pack(fill="both", expand=True)
         self.performance_output.configure(state="disabled")
@@ -162,6 +163,10 @@ class OptimizerApp:
 
     def show_power(self):
         self._set(self.performance_output, json.dumps(power.get_power_status(), indent=2, ensure_ascii=False))
+        self.tabs.select(6)
+
+    def show_thermal(self):
+        self._set(self.performance_output, json.dumps(thermal.thermal_status(), indent=2, ensure_ascii=False))
         self.tabs.select(6)
 
     def run_benchmark(self):
