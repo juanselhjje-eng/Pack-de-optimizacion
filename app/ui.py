@@ -4,7 +4,7 @@ from tkinter import ttk, messagebox, filedialog
 from datetime import datetime
 from pathlib import Path
 
-from app import diagnostics, network, cleanup, processes, dev_environment, startup, gpu, power, benchmark, recommendations
+from app import diagnostics, network, cleanup, processes, dev_environment, startup, gpu, power, benchmark, recommendations, profiles
 
 APP_NAME = "Ultimate PC Optimizer"
 
@@ -41,6 +41,7 @@ class OptimizerApp:
         self.maintenance_tab = self._maintenance_tab()
         self.startup_tab = self._startup_tab()
         self.performance_tab = self._performance_tab()
+        self.profile_tab = self._profile_tab()
 
     def _text_tab(self, name):
         frame = ttk.Frame(self.tabs, padding=10)
@@ -103,6 +104,27 @@ class OptimizerApp:
         self.performance_output.pack(fill="both", expand=True)
         self.performance_output.configure(state="disabled")
         return frame
+
+
+    def _profile_tab(self):
+        frame = ttk.Frame(self.tabs, padding=12)
+        self.tabs.add(frame, text="Perfiles")
+        ttk.Label(frame, text="Selecciona el tipo de carga para ver recomendaciones. No se aplican cambios automáticamente.").pack(anchor="w")
+        self.profile_name = tk.StringVar(value="Equilibrado")
+        selector = ttk.Combobox(frame, textvariable=self.profile_name, values=list(profiles.PROFILES.keys()), state="readonly", width=28)
+        selector.pack(anchor="w", pady=8)
+        selector.bind("<<ComboboxSelected>>", lambda event: self.show_profile())
+        self.profile_output = tk.Text(frame, wrap="word", font=("Consolas", 10))
+        self.profile_output.pack(fill="both", expand=True)
+        self.profile_output.configure(state="disabled")
+        self.show_profile()
+        return frame
+
+    def show_profile(self):
+        selected = profiles.PROFILES.get(self.profile_name.get(), {})
+        content = selected.get("description", "") + "\n\nRECOMENDACIONES\n\n"
+        content += "\n".join("- " + item for item in selected.get("actions", []))
+        self._set(self.profile_output, content)
 
     def refresh(self):
         self.status.configure(text="Analizando hardware y sistema...")
